@@ -31,6 +31,8 @@
 
 <div class="row" id="library"></div>
 
+<script src="https://reaudioplayer.herokuapp.com/socket.io/socket.io.js"></script>
+
 <script>
   if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
     document.documentElement.setAttribute("data-theme", "dark");
@@ -43,6 +45,44 @@
   window.mode.light = function () {
     document.documentElement.setAttribute("data-theme", "light");
   }
+
+  /***********************************************/
+  /* SOCKET */
+
+  var socket = io("ws://reaudioplayer.herokuapp.com/");
+  window.connected = false;
+
+  socket.on('login', function (data) {
+    console.log("logged in")
+    window.connected = true;
+  });
+
+    // Server schickt "new message": Neue Nachricht zum Chat-Protokoll hinzufügen
+  socket.on('new message', function (data) {
+    if (document.getElementById("shareIn").value == data.username.toUpperCase())
+    {
+      const game = window.library.find(it => it.igdbId == data.message);
+      launchGame(game.name, game.igdbId, "Your friend wants you to play $NAME!", false);
+    }
+  });
+
+  // Server schickt "user joined": Neuen Benutzer im Chat-Protokoll anzeigen
+  socket.on('user joined', function (data) {
+    console.log(data + ' joined');
+  });
+
+  // Server schickt "user left": Benutzer, der gegangen ist, im Chat-Protokoll anzeigen
+  socket.on('user left', function (data) {
+    console.log(data + ' left');
+  });
+
+  function launchFriend(msg)
+  {
+    socket.emit('new message', msg);
+  }
+
+  /***********************************************/
+  /* FUNS */
 
   function httpGet(theUrl) {
     var xmlHttp = new XMLHttpRequest();
@@ -76,13 +116,20 @@
   document.getElementById("library").innerHTML = library;
   //console.log(library);
 
-  function launchGame(name, id)
+  function launchGame(name, id, confirmMsg = "Do you want to launch $NAME?", askFriend = true)
   {
     name = name.replace("'", "");
 
-    if (confirm("Do you want to launch " + name + "?"))
+    console.log(id, typeof id)
+
+    if (confirm(confirmMsg.replace("$NAME", name)))
     {
       httpGet("games/launch/" + id + "&" + localStorage.getItem('client'));
+
+      if (askFriend)
+      {
+        launchFriend(id);
+      }
     }
   }
 
@@ -104,12 +151,14 @@
 
   function shareLibrary()
   {
-    const key = Math.floor(100000 + Math.random() * 900000);
+    //const key = Math.floor(100000 + Math.random() * 900000);
+    const key = localStorage.getItem('client');
     console.info(key)
+    socket.emit('add user', key);
 
     let body = {
       "value": JSON.stringify(window.library),
-      "key": key
+      "key": key.toUpperCase()
     }
 
     console.log("Content-Length:", JSON.stringify(body).length)
@@ -125,9 +174,9 @@
     })
     .then(response => {
       console.log(response)
-      if (response.status == 201)
+      if (response.status == 201 || response.status == 200)
       {
-        document.getElementById("shareLibraryCode").innerHTML = "Share your Library: " + key;
+        document.getElementById("shareLibraryCode").innerHTML = "Share your Library: " + key.toUpperCase();
       }
     })
   }
