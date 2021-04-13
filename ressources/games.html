@@ -61,19 +61,24 @@
   socket.on('new message', function (data) {
     if (document.getElementById("shareIn").value == data.username.toUpperCase())
     {
-      const game = window.library.find(it => it.igdbId == data.message);
-      launchGame(game.name, game.igdbId, "Your friend wants you to play $NAME!", false);
+      const json = JSON.parse(data.message);
+
+      if (json.receiver == localStorage.getItem('client').toUpperCase())
+      {
+        const game = window.library.find(it => it.igdbId == json.id);
+        launchGame(game.name, game.igdbId, "Your friend wants you to play $NAME!", false); 
+      }
     }
   });
 
   // Server schickt "user joined": Neuen Benutzer im Chat-Protokoll anzeigen
   socket.on('user joined', function (data) {
-    console.log(data + ' joined');
+    //console.log(data + ' joined');
   });
 
   // Server schickt "user left": Benutzer, der gegangen ist, im Chat-Protokoll anzeigen
   socket.on('user left', function (data) {
-    console.log(data + ' left');
+    //console.log(data + ' left');
   });
 
   function launchFriend(msg)
@@ -120,15 +125,20 @@
   {
     name = name.replace("'", "");
 
-    console.log(id, typeof id)
-
     if (confirm(confirmMsg.replace("$NAME", name)))
     {
       httpGet("games/launch/" + id + "&" + localStorage.getItem('client'));
 
       if (askFriend)
       {
-        launchFriend(id);
+        const shareIn = document.getElementById("shareIn").value;
+
+        const req = {  
+          id: id,
+          receiver: shareIn
+        };
+        console.log(req)
+        launchFriend(req);
       }
     }
   }
