@@ -1,0 +1,586 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "reAudioPlayerML/1.0.0": {
+        "dependencies": {
+          "EmbedIO": "3.4.3",
+          "Google.Apis": "1.49.0",
+          "Google.Apis.Auth": "1.49.0",
+          "Google.Apis.Core": "1.49.0",
+          "Google.Apis.YouTube.v3": "1.49.0.2162",
+          "IGDB": "2.0.1",
+          "LibGit2Sharp": "0.26.2",
+          "LibGit2Sharp.NativeBinaries": "2.0.306",
+          "LongFixed-NYoutubeDL": "0.10.2",
+          "MetroFramework": "1.2.0.3",
+          "MetroFramework.Design": "1.2.0.3",
+          "MetroFramework.Fonts": "1.2.0.3",
+          "MetroFramework.RunTime": "1.2.0.3",
+          "MetroModernUI": "1.4.0",
+          "Microsoft.CSharp": "4.7.0",
+          "Microsoft.NETCore.Platforms": "5.0.2",
+          "NHotkey": "2.1.0",
+          "NHotkey.WindowsForms": "2.1.0",
+          "Newtonsoft.Json": "12.0.3",
+          "QRCoder": "1.4.1",
+          "RestSharp": "106.11.7",
+          "SpotifyAPI.Web": "6.0.0",
+          "SpotifyAPI.Web.Auth": "6.0.0",
+          "System.Data.DataSetExtensions": "4.5.0",
+          "System.Drawing.Common": "4.7.0",
+          "TMDbLib": "1.6.0",
+          "Unosquare.Swan.Lite": "3.0.0",
+          "taglib-sharp-netstandard2.0": "2.1.0"
+        },
+        "runtime": {
+          "reAudioPlayerML.dll": {}
+        }
+      },
+      "EmbedIO/3.4.3": {
+        "dependencies": {
+          "Unosquare.Swan.Lite": "3.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/EmbedIO.dll": {
+            "assemblyVersion": "3.4.3.0",
+            "fileVersion": "3.4.3.0"
+          }
+        }
+      },
+      "Google.Apis/1.49.0": {
+        "dependencies": {
+          "Google.Apis.Core": "1.49.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Apis.dll": {
+            "assemblyVersion": "1.49.0.0",
+            "fileVersion": "1.49.0.0"
+          }
+        }
+      },
+      "Google.Apis.Auth/1.49.0": {
+        "dependencies": {
+          "Google.Apis": "1.49.0",
+          "Google.Apis.Core": "1.49.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Apis.Auth.PlatformServices.dll": {
+            "assemblyVersion": "1.49.0.0",
+            "fileVersion": "1.49.0.0"
+          },
+          "lib/netstandard2.0/Google.Apis.Auth.dll": {
+            "assemblyVersion": "1.49.0.0",
+            "fileVersion": "1.49.0.0"
+          }
+        }
+      },
+      "Google.Apis.Core/1.49.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Apis.Core.dll": {
+            "assemblyVersion": "1.49.0.0",
+            "fileVersion": "1.49.0.0"
+          }
+        }
+      },
+      "Google.Apis.YouTube.v3/1.49.0.2162": {
+        "dependencies": {
+          "Google.Apis": "1.49.0",
+          "Google.Apis.Auth": "1.49.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Apis.YouTube.v3.dll": {
+            "assemblyVersion": "1.49.0.2162",
+            "fileVersion": "1.49.0.2162"
+          }
+        }
+      },
+      "IGDB/2.0.1": {
+        "dependencies": {
+          "RestEase": "1.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/IGDB.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "LibGit2Sharp/0.26.2": {
+        "dependencies": {
+          "LibGit2Sharp.NativeBinaries": "2.0.306"
+        },
+        "runtime": {
+          "lib/netstandard2.0/LibGit2Sharp.dll": {
+            "assemblyVersion": "0.26.0.0",
+            "fileVersion": "0.26.2.97"
+          }
+        }
+      },
+      "LibGit2Sharp.NativeBinaries/2.0.306": {
+        "runtimeTargets": {
+          "runtimes/alpine-x64/native/libgit2-106a5f2.so": {
+            "rid": "alpine-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/alpine.3.9-x64/native/libgit2-106a5f2.so": {
+            "rid": "alpine.3.9-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/debian-arm64/native/libgit2-106a5f2.so": {
+            "rid": "debian-arm64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/debian.9-x64/native/libgit2-106a5f2.so": {
+            "rid": "debian.9-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/fedora-x64/native/libgit2-106a5f2.so": {
+            "rid": "fedora-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/linux-x64/native/libgit2-106a5f2.so": {
+            "rid": "linux-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx/native/libgit2-106a5f2.dylib": {
+            "rid": "osx",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/rhel-x64/native/libgit2-106a5f2.so": {
+            "rid": "rhel-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/ubuntu.16.04-arm64/native/libgit2-106a5f2.so": {
+            "rid": "ubuntu.16.04-arm64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/ubuntu.18.04-x64/native/libgit2-106a5f2.so": {
+            "rid": "ubuntu.18.04-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x64/native/git2-106a5f2.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.28.4.0"
+          },
+          "runtimes/win-x64/native/git2-106a5f2.pdb": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win-x86/native/git2-106a5f2.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "0.28.4.0"
+          },
+          "runtimes/win-x86/native/git2-106a5f2.pdb": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "LongFixed-NYoutubeDL/0.10.2": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/LongFixed-NYoutubeDL.dll": {
+            "assemblyVersion": "0.10.2.0",
+            "fileVersion": "0.10.2.0"
+          }
+        }
+      },
+      "MetroFramework/1.2.0.3": {
+        "dependencies": {
+          "MetroFramework.Design": "1.2.0.3",
+          "MetroFramework.Fonts": "1.2.0.3",
+          "MetroFramework.RunTime": "1.2.0.3"
+        }
+      },
+      "MetroFramework.Design/1.2.0.3": {
+        "dependencies": {
+          "MetroFramework.RunTime": "1.2.0.3"
+        }
+      },
+      "MetroFramework.Fonts/1.2.0.3": {
+        "dependencies": {
+          "MetroFramework.RunTime": "1.2.0.3"
+        }
+      },
+      "MetroFramework.RunTime/1.2.0.3": {},
+      "MetroModernUI/1.4.0": {
+        "runtime": {
+          "lib/net/MetroFramework.Design.dll": {
+            "assemblyVersion": "1.4.0.0",
+            "fileVersion": "1.4.0.0"
+          },
+          "lib/net/MetroFramework.Fonts.dll": {
+            "assemblyVersion": "1.4.0.0",
+            "fileVersion": "1.4.0.0"
+          },
+          "lib/net/MetroFramework.dll": {
+            "assemblyVersion": "1.4.0.0",
+            "fileVersion": "1.4.0.0"
+          }
+        }
+      },
+      "Microsoft.CSharp/4.7.0": {},
+      "Microsoft.NETCore.Platforms/5.0.2": {},
+      "Microsoft.Win32.SystemEvents/4.7.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "5.0.2"
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.3.23909"
+          }
+        }
+      },
+      "NHotkey/2.1.0": {
+        "runtime": {
+          "lib/netcoreapp3.0/NHotkey.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.1.0.0"
+          }
+        }
+      },
+      "NHotkey.WindowsForms/2.1.0": {
+        "dependencies": {
+          "NHotkey": "2.1.0"
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/NHotkey.WindowsForms.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.1.0.0"
+          }
+        }
+      },
+      "QRCoder/1.4.1": {
+        "dependencies": {
+          "System.Drawing.Common": "4.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/QRCoder.dll": {
+            "assemblyVersion": "1.4.1.0",
+            "fileVersion": "1.4.1.0"
+          }
+        }
+      },
+      "RestEase/1.5.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.1/RestEase.dll": {
+            "assemblyVersion": "1.5.0.0",
+            "fileVersion": "1.5.0.0"
+          }
+        }
+      },
+      "RestSharp/106.11.7": {
+        "runtime": {
+          "lib/netstandard2.0/RestSharp.dll": {
+            "assemblyVersion": "106.11.7.0",
+            "fileVersion": "106.11.7.0"
+          }
+        }
+      },
+      "SpotifyAPI.Web/6.0.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/net5.0/SpotifyAPI.Web.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "SpotifyAPI.Web.Auth/6.0.0": {
+        "dependencies": {
+          "EmbedIO": "3.4.3",
+          "SpotifyAPI.Web": "6.0.0"
+        },
+        "runtime": {
+          "lib/net5.0/SpotifyAPI.Web.Auth.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "System.Data.DataSetExtensions/4.5.0": {},
+      "System.Drawing.Common/4.7.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "5.0.2",
+          "Microsoft.Win32.SystemEvents": "4.7.0"
+        }
+      },
+      "taglib-sharp-netstandard2.0/2.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/taglib-sharp.dll": {
+            "assemblyVersion": "2.1.0.0",
+            "fileVersion": "2.1.0.0"
+          }
+        }
+      },
+      "TMDbLib/1.6.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.1/TMDbLib.dll": {
+            "assemblyVersion": "1.6.0.0",
+            "fileVersion": "1.6.0.0"
+          }
+        }
+      },
+      "Unosquare.Swan.Lite/3.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/Swan.Lite.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "reAudioPlayerML/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "EmbedIO/3.4.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YM6hpZNAfvbbixfG9T4lWDGfF0D/TqutbTROL4ogVcHKwPF1hp+xS3ABwd3cxxTxvDFkj/zZl57QgWuFA8Igxw==",
+      "path": "embedio/3.4.3",
+      "hashPath": "embedio.3.4.3.nupkg.sha512"
+    },
+    "Google.Apis/1.49.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fmXQQTxZFOBlnvokvdQMzq0Lt+g2QzpZ4H6U8lMMFHgAR8ZqxQnPN5yHDpoHf7a++hJHb5W3pALxauGsq+afKQ==",
+      "path": "google.apis/1.49.0",
+      "hashPath": "google.apis.1.49.0.nupkg.sha512"
+    },
+    "Google.Apis.Auth/1.49.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3V9ohvixQtjaEvk7T9Ac7E/KvwEPa7eL4aMNreJDI0CEPzCdQdk2zCvaJPRrNIjhe+UuBeOeom1oAOMFB74JHg==",
+      "path": "google.apis.auth/1.49.0",
+      "hashPath": "google.apis.auth.1.49.0.nupkg.sha512"
+    },
+    "Google.Apis.Core/1.49.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9DgGdtyzgrCfHWwc/HiDXDbykNMeKQozbEHYEUEcezRuH+YR3fvq7YGVBDmUM8g6qEL3kDk6h5EU4h0IJwue1w==",
+      "path": "google.apis.core/1.49.0",
+      "hashPath": "google.apis.core.1.49.0.nupkg.sha512"
+    },
+    "Google.Apis.YouTube.v3/1.49.0.2162": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2LK93e+WJc46TXIwAEgC57U+1qkSvdpRLtCwHk6FzfatnxVYn0QKS3ZPzgV0G4hrxhvyGVx9164L0rplxxuQZg==",
+      "path": "google.apis.youtube.v3/1.49.0.2162",
+      "hashPath": "google.apis.youtube.v3.1.49.0.2162.nupkg.sha512"
+    },
+    "IGDB/2.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hXoFeaB4OTRP7SKOo150txi3bx19kcwzR+U1xKJrJAqiJaiYuWh/YugJi2fp8L7vTNLIAs/4mUeLNUtSpFWrTQ==",
+      "path": "igdb/2.0.1",
+      "hashPath": "igdb.2.0.1.nupkg.sha512"
+    },
+    "LibGit2Sharp/0.26.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-qHLhuI8VEtMf7jiurT/Ypquh37S6ngllCx+aq9uqOY2evok7Fb2AzhJgvNctsXOzHaJwveBs+30sPQJFn/pISg==",
+      "path": "libgit2sharp/0.26.2",
+      "hashPath": "libgit2sharp.0.26.2.nupkg.sha512"
+    },
+    "LibGit2Sharp.NativeBinaries/2.0.306": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LY9nyPE2X/eLl69ttuDPFFlKR8b5KXlqYej1YR1YmqmhF8Izo+vPX90q5ouOO5YGCf5d4lDUOC0x2yMWw00P7Q==",
+      "path": "libgit2sharp.nativebinaries/2.0.306",
+      "hashPath": "libgit2sharp.nativebinaries.2.0.306.nupkg.sha512"
+    },
+    "LongFixed-NYoutubeDL/0.10.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ek+KYWcnEdrZmbC+jCn11f38W0n34yjHU6xXSGFKfgDM4S3lpQ9PnSoyNaJJA+E6cM9vQ9AGqeZroBuYPmk4Xw==",
+      "path": "longfixed-nyoutubedl/0.10.2",
+      "hashPath": "longfixed-nyoutubedl.0.10.2.nupkg.sha512"
+    },
+    "MetroFramework/1.2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PldREwx2yJ9GFXoR4IsXgsrTuOOEL1c5qZYeIfv9SVCSd7cJobmNRDHo+2v78E6U1lIWHM+ZIceZEETdOj0+oA==",
+      "path": "metroframework/1.2.0.3",
+      "hashPath": "metroframework.1.2.0.3.nupkg.sha512"
+    },
+    "MetroFramework.Design/1.2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JhXzz2m1ofJu+vcqxib1s9nmI1akoDHTRweNISsVcvk38bVabqHpwrTpwvz3z4lcwqIe19/B6M4Rrk5uXdNmhA==",
+      "path": "metroframework.design/1.2.0.3",
+      "hashPath": "metroframework.design.1.2.0.3.nupkg.sha512"
+    },
+    "MetroFramework.Fonts/1.2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5PAtJsIKfg4bzXPH3MeS4UFDxc4bgCe9yEEg+HS9+lOuwdChpMtawFw0XK4/u7OZxnCfkcHbnjTpu4IUpBBsfA==",
+      "path": "metroframework.fonts/1.2.0.3",
+      "hashPath": "metroframework.fonts.1.2.0.3.nupkg.sha512"
+    },
+    "MetroFramework.RunTime/1.2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7AFviJ+uFd/jApvUzOU8mMzl3NCj/sjIKQgCeJqqEEc78R6LoOTH+qGFZBRIEV+6nqgt9h2Y/ei6xVkTNZ3sJA==",
+      "path": "metroframework.runtime/1.2.0.3",
+      "hashPath": "metroframework.runtime.1.2.0.3.nupkg.sha512"
+    },
+    "MetroModernUI/1.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-p2F3w8bF1tb0tpkDceEVO65UYMKnJxdQyNxVyl/OjrFZHighicLYZDppKkiqmvBZ10XUi2mqHiIJUzXBP3GElQ==",
+      "path": "metromodernui/1.4.0",
+      "hashPath": "metromodernui.1.4.0.nupkg.sha512"
+    },
+    "Microsoft.CSharp/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
+      "path": "microsoft.csharp/4.7.0",
+      "hashPath": "microsoft.csharp.4.7.0.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/5.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-T8Lu7xWbcLFrficw7eOcX1NqDiIvqhyzJ7OA9KyZ/9hfU5zmYGddTyiD6HfYfYkjiPSeYgVsIZt1WxZ8YbI8Cw==",
+      "path": "microsoft.netcore.platforms/5.0.2",
+      "hashPath": "microsoft.netcore.platforms.5.0.2.nupkg.sha512"
+    },
+    "Microsoft.Win32.SystemEvents/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mtVirZr++rq+XCDITMUdnETD59XoeMxSpLRIII7JRI6Yj0LEDiO1pPn0ktlnIj12Ix8bfvQqQDMMIF9wC98oCA==",
+      "path": "microsoft.win32.systemevents/4.7.0",
+      "hashPath": "microsoft.win32.systemevents.4.7.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "path": "newtonsoft.json/12.0.3",
+      "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "NHotkey/2.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zr6ngoY5OujU8zhp8DGZF4I10HSrHjOuiXw9LdXaplXdOJPxwbYPvIDacGtsTCnLLSZDTF+lwjDpdr+bnntRdw==",
+      "path": "nhotkey/2.1.0",
+      "hashPath": "nhotkey.2.1.0.nupkg.sha512"
+    },
+    "NHotkey.WindowsForms/2.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-m15yFRtqIuXq625zGuIxWv45V7L/OLisbazsWyqaASzPCsOFPRoo/6yGpFq5MEdSgBOV3Y9kUIkswdulqZ8rVw==",
+      "path": "nhotkey.windowsforms/2.1.0",
+      "hashPath": "nhotkey.windowsforms.2.1.0.nupkg.sha512"
+    },
+    "QRCoder/1.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-W8KwCwsOJe9SI7Cm7XeIMawd08F/US6xNw34lg2Qnx6m7GYYakxbyBQaNoW1Q75oJOmX/32sJUZr6Cix2B6GUQ==",
+      "path": "qrcoder/1.4.1",
+      "hashPath": "qrcoder.1.4.1.nupkg.sha512"
+    },
+    "RestEase/1.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-m5QAGoHEHmE7F3yyvzkwhxFeFuZiUoKoCvGw2iQLfRY962Rc9HPuKHeNkiVLlK5cZLX7j5RzL1QP4wqpMrcE5Q==",
+      "path": "restease/1.5.0",
+      "hashPath": "restease.1.5.0.nupkg.sha512"
+    },
+    "RestSharp/106.11.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NzndH096CTulvq+ihr7u1mBJ29oukdi9A8bypQJk+kaHxbRzTTrtgsEEQAb04ptTUZmQa7cgo7uF5z7NuEPX1Q==",
+      "path": "restsharp/106.11.7",
+      "hashPath": "restsharp.106.11.7.nupkg.sha512"
+    },
+    "SpotifyAPI.Web/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wEj3D6aqVt5mhkDoMbeDvVzqL4WyqDzG75hRMnELGCIhWK/ha5XkOpusilanCmd2+NH/fsNjD8W9o7An+p7Weg==",
+      "path": "spotifyapi.web/6.0.0",
+      "hashPath": "spotifyapi.web.6.0.0.nupkg.sha512"
+    },
+    "SpotifyAPI.Web.Auth/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1YdQAQrAmTUWty2buEJP8n+ZQxJrYZZyV4Cfi/7Z4KDYkXKcmfn4WSBQ6EPtPhJMXeCGbkg0/gaJSvSvbd5RVg==",
+      "path": "spotifyapi.web.auth/6.0.0",
+      "hashPath": "spotifyapi.web.auth.6.0.0.nupkg.sha512"
+    },
+    "System.Data.DataSetExtensions/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-221clPs1445HkTBZPL+K9sDBdJRB8UN8rgjO3ztB0CQ26z//fmJXtlsr6whGatscsKGBrhJl5bwJuKSA8mwFOw==",
+      "path": "system.data.datasetextensions/4.5.0",
+      "hashPath": "system.data.datasetextensions.4.5.0.nupkg.sha512"
+    },
+    "System.Drawing.Common/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-v+XbyYHaZjDfn0ENmJEV1VYLgGgCTx1gnfOBcppowbpOAriglYgGCvFCPr2EEZyBvXlpxbEsTwkOlInl107ahA==",
+      "path": "system.drawing.common/4.7.0",
+      "hashPath": "system.drawing.common.4.7.0.nupkg.sha512"
+    },
+    "taglib-sharp-netstandard2.0/2.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-w45LreEPpV/vOfgpYBI1cNqiLvj8yQ8f7kJaMYtzTAsg26ZdHWnh5vPuy2/F9tCKhmgNB0s+zOBwdcEb4qk3Tg==",
+      "path": "taglib-sharp-netstandard2.0/2.1.0",
+      "hashPath": "taglib-sharp-netstandard2.0.2.1.0.nupkg.sha512"
+    },
+    "TMDbLib/1.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sBgeqLzIKf52dtTRAyo7rZhjw0hZFjVleQi276kexSIjlGy7ah8I31bTGLPM0LqkWVnLxQgxvWx6uTcI9ajcaQ==",
+      "path": "tmdblib/1.6.0",
+      "hashPath": "tmdblib.1.6.0.nupkg.sha512"
+    },
+    "Unosquare.Swan.Lite/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-noPwJJl1Q9uparXy1ogtkmyAPGNfSGb0BLT1292nFH1jdMKje6o2kvvrQUvF9Xklj+IoiAI0UzF6Aqxlvo10lw==",
+      "path": "unosquare.swan.lite/3.0.0",
+      "hashPath": "unosquare.swan.lite.3.0.0.nupkg.sha512"
+    }
+  }
+}
