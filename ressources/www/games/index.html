@@ -168,10 +168,9 @@
   }
 
     var resp = httpGet("api/games/validate-user/" + localStorage.getItem('client'));
-    localStorage.setItem('client', resp.substring(1, resp.length - 1) || "1");
+    localStorage.setItem('client', resp || "1");
 
-    let sdata = httpGet("api/data/games");
-    sdata = sdata.substring(1, sdata.length - 1);
+    const sdata = httpGet("api/games/library");
     const jdata = JSON.parse(sdata);
   window.library = jdata;
 

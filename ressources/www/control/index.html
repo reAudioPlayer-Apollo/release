@@ -34,20 +34,20 @@
         return "data:image/gif;base64," + httpGet(url)
     }
 
-    var base = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"
+    let base = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"
 
-    var pic = window.getSrc(base + "cover")
+    var pic = window.getSrc(base + "api/data/cover")
     var img = getImageFromSrc(pic)
 
     document.getElementById("back").style.backgroundImage = img
     console.log(document.getElementById('cover').style.backgroundImage)
     document.getElementById("ccover").src = pic
-    document.getElementById("volumeBar").value = httpGet(base + "get/volume")
-    document.title = httpGet(base + "displayname")
+    document.getElementById("volumeBar").value = httpGet(base + "api/data/volume")
+    document.title = httpGet(base + "api/data/displayname")
     //document.getElementById("accent").style.backgroundColor = hexToRGB( httpGet(base + "accent"), .6)
     document.getElementById("accent").style.backgroundColor = hexToRGB("#000000", .3)
 
-    document.querySelector("link[rel='shortcut icon']").href = window.getSrc(base + "favicon.ico");
+    //document.querySelector("link[rel='shortcut icon']").href = window.getSrc(base + "favicon.ico");
 
     function hexToRGB(hex, alpha) {
         var r = parseInt(hex.slice(1, 3), 16),
@@ -237,20 +237,20 @@
     }
 
     function setVolume(value) {
-        httpGet(base + "control/volume/" + value)
+        httpGet(base + "api/control/volume/" + value)
     }
 
     function last() {
-        httpGet(base + "control/last")
+        httpGet(base + "api/control/last")
     }
 
     function playPause() {
-        document.getElementById("playPause").src = window.getSrc(base + "control/playPause")
+        document.getElementById("playPause").src = window.getSrc(base + "api/control/playPause")
         animPlayPause()
     }
 
     function next() {
-        httpGet(base + "control/next")
+        httpGet(base + "api/control/next")
     }
 
     var gesture = {

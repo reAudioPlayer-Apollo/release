@@ -35,7 +35,7 @@
     var base = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/"
     document.querySelector("link[rel='shortcut icon']").href = window.getSrc(base + "favicon.ico");
 
-    let playlists = JSON.parse( httpGet(base + "v2/data/playlists") );
+    let playlists = JSON.parse( httpGet(base + "api/data/playlists") );
 
     let section = document.getElementById("cardsection");
     let html = "";
