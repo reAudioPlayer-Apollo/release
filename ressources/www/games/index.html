@@ -2,7 +2,6 @@
   <meta charset="UTF-8" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <script src="/websocket/websocket.js"></script>
 </head>
 
 <div class="row notgamerow">
@@ -145,14 +144,14 @@
   /***********************************************/
   /* FUNS */
 
-  document.addEventListener("ws.game.validate-user", (evt) => localStorage.setItem('client', evt.data.data || "1"));
+  document.addEventListener("ws.game.validate-user", (evt) => localStorage.setItem('client', evt.data.data));
   document.addEventListener("ws.connect", onConnected);
   document.addEventListener("ws.game.library", receiveLibrary);
   document.addEventListener("ws.game.launch", receiveLaunch);
 
   function onConnected()
   {
-    ws.game.validateUser(localStorage.getItem("client"));
+    ws.game.validateUser(localStorage.getItem("client") || "1");
     ws.game.library();
   }
 
@@ -437,3 +436,5 @@
     max-width: calc(50% - 8px);
   }
 </style>
+
+<script src="/websocket/websocket.js"></script>
