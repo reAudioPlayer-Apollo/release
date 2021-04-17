@@ -2,6 +2,7 @@
   <meta charset="UTF-8" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <script src="/websocket/websocket.js"></script>
 </head>
 
 <div class="row notgamerow">
@@ -73,20 +74,19 @@
 
   socket.on('authorised', function (data) {
     console.log("authorised")
-    document.getElementById("shareLibraryCode").innerHTML = "Share your Library: " + localStorage.getItem('client').toUpperCase();
+    document.getElementById("shareLibraryCode").innerHTML = "Share your Library: " + localStorage.getItem('client')
+      .toUpperCase();
     window.connected = true;
     socket.emit('synchronise game database', db);
   });
 
   // receive game invite
   socket.on('game invite', function (data) {
-    if (document.getElementById("shareIn").value == data.inviter.toUpperCase())
-    {
+    if (document.getElementById("shareIn").value == data.inviter.toUpperCase()) {
       //const json = JSON.parse(data.message);
       const json = data;
 
-      if (json.receiver == localStorage.getItem('client').toUpperCase())
-      {
+      if (json.receiver == localStorage.getItem('client').toUpperCase()) {
         const game = window.library.find(it => it.igdbId == json.gameId);
         launchGame(game.name, game.igdbId, "Your friend wants you to play $NAME!", false);
       }
@@ -94,26 +94,20 @@
   });
 
   // receive friends library
-  socket.on('game library of', function(data) {
+  socket.on('game library of', function (data) {
     const friendLib = data;
     const library = document.getElementById("library");
 
-    for (let i = 0; i < library.children.length; i++)
-    {
+    for (let i = 0; i < library.children.length; i++) {
       const game = library.children[i];
       const name = game.getElementsByTagName('p')[0].innerHTML;
 
-      if (isEligible(game, name, friendLib))
-      {
-        if (game.classList.contains("hidden"))
-        {
+      if (isEligible(game, name, friendLib)) {
+        if (game.classList.contains("hidden")) {
           game.classList.remove("hidden");
         }
-      }
-      else
-      {
-        if (!game.classList.contains("hidden"))
-        {
+      } else {
+        if (!game.classList.contains("hidden")) {
           game.classList.add("hidden");
         }
       }
@@ -121,14 +115,12 @@
   })
 
   // invite to game
-  function launchFriend(id)
-  {
+  function launchFriend(id) {
     socket.emit('launch game', id);
   }
 
   // authorisation; also publishs game library
-  function shareLibrary()
-  {
+  function shareLibrary() {
     const key = localStorage.getItem('client');
 
     const body = {
@@ -144,8 +136,7 @@
   }
 
   // updates lib while concidering friend's lib
-  function updateLib()
-  {
+  function updateLib() {
     const shareIn = document.getElementById("shareIn");
     const v = shareIn.value
     socket.emit('get game library of', v);
@@ -154,47 +145,51 @@
   /***********************************************/
   /* FUNS */
 
-  function httpGet(theUrl) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", theUrl, false); // false for synchronous request
-    xmlHttp.send(null);
-    //console.log(xmlHttp.response);
+  document.addEventListener("ws.game.validate-user", (evt) => localStorage.setItem('client', evt.data.data || "1"));
+  document.addEventListener("ws.connect", onConnected);
+  document.addEventListener("ws.game.library", receiveLibrary);
+  document.addEventListener("ws.game.launch", receiveLaunch);
 
-    if (xmlHttp.status == 401) {
-      alert(xmlHttp.response);
-    }
-
-    return xmlHttp.response;
+  function onConnected()
+  {
+    ws.game.validateUser(localStorage.getItem("client"));
+    ws.game.library();
   }
 
-    var resp = httpGet("api/games/validate-user/" + localStorage.getItem('client'));
-    localStorage.setItem('client', resp || "1");
+  function receiveLibrary(evt)
+  {
+    const jdata = JSON.parse(evt.data.data);
+    window.library = jdata;
 
-    const sdata = httpGet("api/games/library");
-    const jdata = JSON.parse(sdata);
-  window.library = jdata;
+    let library = "";
 
-  let library = "";
-
-  for (let i = 0; i < jdata.length; i++) {
-    var line = "<div class='game'><img onclick='launchGame(\"" + jdata[i].name.replace("'", "") + "\"," + jdata[i].igdbId + ")' src='" +
-      jdata[i].cover + "'><p>" + jdata[i].name + "</p></div>";
+    for (let i = 0; i < jdata.length; i++) {
+      var line = "<div class='game'><img onclick='launchGame(\"" + jdata[i].name.replace("'", "") + "\"," + jdata[i]
+        .igdbId + ")' src='" +
+        jdata[i].cover + "'><p>" + jdata[i].name + "</p></div>";
 
       library += line;
 
+    }
+    document.getElementById("library").innerHTML = library;
+    shareLibrary();
   }
-  document.getElementById("library").innerHTML = library;
 
-  function launchGame(name, id, confirmMsg = "Do you want to launch $NAME?", askFriend = true)
+  function receiveLaunch(evt)
   {
+    if (evt.data.data != "OK")
+    {
+      alert(evt.data.data);
+    }
+  }
+
+  function launchGame(name, id, confirmMsg = "Do you want to launch $NAME?", askFriend = true) {
     name = name.replace("'", "");
 
-    if (confirm(confirmMsg.replace("$NAME", name)))
-    {
-      httpGet("api/games/launch/" + id + "&" + localStorage.getItem('client'));
+    if (confirm(confirmMsg.replace("$NAME", name))) {
+      ws.game.launch(id, localStorage.getItem("client"));
 
-      if (askFriend)
-      {
+      if (askFriend) {
         const shareIn = document.getElementById("shareIn").value;
 
         const req = {
@@ -207,245 +202,238 @@
     }
   }
 
-  function launchRandom()
-  {
-    const game = jdata[ Math.floor(Math.random() * (jdata.length - 1)) ];
+  function launchRandom() {
+    const game = jdata[Math.floor(Math.random() * (jdata.length - 1))];
     launchGame(game.name, game.igdbId);
   }
 
-  function launchFavourite()
-  {
+  function launchFavourite() {
 
   }
 
-  function launchRecent()
-  {
+  function launchRecent() {
 
   }
 
-  function isEligible(game, name, friendLib)
-  {
+  function isEligible(game, name, friendLib) {
     const search = document.getElementById("search");
 
-    return (name.toLowerCase().includes(search.value.toLowerCase()) || search.value == "")
-      && (friendLib == null || friendLib == "null" || !!friendLib.find(game => game.name == name))
+    return (name.toLowerCase().includes(search.value.toLowerCase()) || search.value == "") &&
+      (friendLib == null || friendLib == "null" || !!friendLib.find(game => game.name == name))
   }
-
-  shareLibrary();
-
 </script>
 <style>
-    :root {
+  :root {
     --gradient-c2: #026670;
     --gradient-c1: #b6d91e;
     --font: #333333;
-    --glass-gradient: linear-gradient(
-        to right bottom,
+    --glass-gradient: linear-gradient(to right bottom,
         rgba(255, 255, 255, 0.8),
-        rgba(255, 255, 255, 0.3)
-    );
-    --font-background: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));;
-}
+        rgba(255, 255, 255, 0.3));
+    --font-background: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
+    ;
+  }
 
-[data-theme="dark"] {
+  [data-theme="dark"] {
     --gradient-c2: hsl(214, 80%, 24%);
     --gradient-c1: #522783;
     --font: whitesmoke;
-    --glass-gradient: linear-gradient(
-            to right bottom,
-            rgba(0, 0, 0, 0.8),
-            rgba(0, 0, 0, 0.3)
-        );
+    --glass-gradient: linear-gradient(to right bottom,
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0.3));
     --font-background: linear-gradient(to right top, #8ea1f3, hsl(214, 94%, 68%));
-}
+  }
 
-body {
-  background: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
-  margin: 0%;
-  padding: 0%;
-  width: 100%;
-  min-height: 100vh;
-}
+  body {
+    background: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
+    margin: 0%;
+    padding: 0%;
+    width: 100%;
+    min-height: 100vh;
+  }
 
-/*INPUT*/
-.form__group {
-  position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-  flex: 100%;
-}
+  /*INPUT*/
+  .form__group {
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    flex: 100%;
+  }
 
-.form__group.shareIn {
-  flex: calc(40% - 20px);
-}
+  .form__group.shareIn {
+    flex: calc(40% - 20px);
+  }
 
-.form__field {
-  font-family: inherit;
-  width: 100%;
-  border: 0;
-  border-bottom: 2px solid #9b9b9b;
-  outline: 0;
-  font-size: 1.3rem;
-  color: #fff;
-  padding: 7px 0;
-  background: transparent;
-  transition: border-color 0.2s;
-}
-.form__field::placeholder {
-  color: transparent;
-}
-.form__field:placeholder-shown ~ .form__label {
-  font-size: 1.3rem;
-  cursor: text;
-  top: 20px;
-}
+  .form__field {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 1.3rem;
+    color: #fff;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+  }
 
-.form__label {
-  position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 1rem;
-  color: var(--font);
-}
+  .form__field::placeholder {
+    color: transparent;
+  }
 
-.form__field:focus {
-  padding-bottom: 6px;
-  font-weight: 700;
-  border-width: 3px;
-  border-image: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
-  border-image-slice: 1;
-}
-.form__field:focus ~ .form__label {
-  position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 1rem;
-  font-weight: 700;
-  background: var(--font-background);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+  .form__field:placeholder-shown~.form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+  }
 
-/* reset input */
-.form__field:required, .form__field:invalid {
-  box-shadow: none;
-}
+  .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: var(--font);
+  }
 
-/* MINE */
+  .form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
+    border-image-slice: 1;
+  }
 
-header {
-  background: var(--glass-gradient);
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 5px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  .form__field:focus~.form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    font-weight: 700;
+    background: var(--font-background);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-  color: whitesmoke;
-  font-family: "Poppins", sans-serif;
-  font-size: 12px;
-  display: flex;
-  flex-flow: row wrap;
-}
+  /* reset input */
+  .form__field:required,
+  .form__field:invalid {
+    box-shadow: none;
+  }
 
-.pro {
-  background: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
-  border-radius: 2rem;
-  color: white;
-  padding: .5rem;
-  position: relative;
-  cursor: pointer;
-  flex: 25%;
-  margin: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+  /* MINE */
 
-.pro.shareCode {
-  cursor: default;
-  flex: calc(40% - 20px);
-}
+  header {
+    background: var(--glass-gradient);
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 
-.pro h2 {
-  color: white;
-  font-weight: 600;
-}
+    color: whitesmoke;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    display: flex;
+    flex-flow: row wrap;
+  }
 
-.row {
-  display: flex;
-  flex-flow: row wrap;
-  width: 100%;
-}
+  .pro {
+    background: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
+    border-radius: 2rem;
+    color: white;
+    padding: .5rem;
+    position: relative;
+    cursor: pointer;
+    flex: 25%;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
 
-.notgamerow {
-  padding: 0 0px;
-}
+  .pro.shareCode {
+    cursor: default;
+    flex: calc(40% - 20px);
+  }
 
-.game img {
-  vertical-align: middle;
-  width: 95%;
-  border-radius: 10px;
-  margin: 2.5% 2.5%;
-}
+  .pro h2 {
+    color: white;
+    font-weight: 600;
+  }
 
-.game img:hover {
-  filter: grayscale(0.4) blur(5px);
-}
+  .row {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+  }
 
-.game {
-  background: var(--glass-gradient);
-  /*padding: 8px;*/
-  border-radius: 10px;
-  margin: 4px;
-  /*margin-top: 8px;
+  .notgamerow {
+    padding: 0 0px;
+  }
+
+  .game img {
+    vertical-align: middle;
+    width: 95%;
+    border-radius: 10px;
+    margin: 2.5% 2.5%;
+  }
+
+  .game img:hover {
+    filter: grayscale(0.4) blur(5px);
+  }
+
+  .game {
+    background: var(--glass-gradient);
+    /*padding: 8px;*/
+    border-radius: 10px;
+    margin: 4px;
+    /*margin-top: 8px;
   margin-bottom: 0px;
   margin-left: 4px;
   margin-right: 4px;*/
-  flex: 1 1 calc(25% - 40px);
-  max-width: calc(25% - 8px);
-}
+    flex: 1 1 calc(25% - 40px);
+    max-width: calc(25% - 8px);
+  }
 
-.game.hidden {
+  .game.hidden {
     display: none;
-}
+  }
 
-p {
-  margin-top: 0px;
-  margin-bottom: 5px;
-  margin-left: 2.5%;
-  padding: 0;
+  p {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-left: 2.5%;
+    padding: 0;
 
-  color: var(--font);
+    color: var(--font);
 
-  font-family: "Poppins", sans-serif;
-  font-size: 14px;
-}
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+  }
 
-/* Responsive layout - makes a two column-layout instead of four columns */
-@media screen and (max-width: 970px)
-{
-  .game {
+  /* Responsive layout - makes a two column-layout instead of four columns */
+  @media screen and (max-width: 970px) {
+    .game {
       flex: 1 1 calc(50% - 20px) !important;
       max-width: calc(50% - 8px);
+    }
   }
-}
 
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .game {
+  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .game {
       flex: 1 1 calc(100% - 10px) !important;
       max-width: calc(100% - 8px);
+    }
   }
-}
 
-.mobile {
+  .mobile {
     flex: 1 1 calc(50% - 20px) !important;
     max-width: calc(50% - 8px);
-}
+  }
 </style>
