@@ -74,6 +74,22 @@ window.ws = new function () {
         }
     }
 
+    class Youtube {
+        download(link, output = null) {
+            webSocket.send(createMessage("youtube", "download", JSON.stringify({
+                link: link,
+                output: output
+            })));
+        }
+
+        sync(link, output = null) {
+            webSocket.send(createMessage("youtube", "sync", JSON.stringify({
+                link: link,
+                output: output
+            })));
+        }
+    }
+
     let webSocket = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/ws");
     window.wsConnected = false;
 
@@ -94,6 +110,7 @@ window.ws = new function () {
     this.control = new Control();
     this.general = new General();
     this.game = new Game();
+    this.youtube = new Youtube();
 
     webSocket.onmessage = function (event) {
         console.log("[websocket.js]", JSON.parse(event.data));
