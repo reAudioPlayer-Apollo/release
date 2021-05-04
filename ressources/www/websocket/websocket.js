@@ -100,7 +100,7 @@ window.ws = new function () {
         console.log(window.onConnected)
 
         var evt = document.createEvent("Event");
-        evt.initEvent("ws.connect",true,true);
+        evt.initEvent("ws.connect", true, true);
 
         //invoke
         document.dispatchEvent(evt);
@@ -120,7 +120,7 @@ window.ws = new function () {
         var evt = document.createEvent("Event");
         const evtName = "ws." + jdata.apiModule + "." + jdata.endpoint;
         console.info(evtName);
-        evt.initEvent(evtName,true,true);
+        evt.initEvent(evtName, true, true);
 
         // custom param
         evt.data = jdata;

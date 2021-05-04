@@ -1,440 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  <title>Games</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="/games/style.css" rel="stylesheet" />
+
+  <script src="/src/theme.js"></script>
+  <script src="https://eu-apollo.herokuapp.com/socket.io/socket.io.js"></script>
+  <script src="/games/games.js"></script>
+  <script src="/websocket/websocket.js"></script>
 </head>
 
-<div class="row notgamerow">
-  <header>
-    <div class="form__group field">
-      <input oninput="updateLib()" type="input" class="form__field" placeholder="Name" id='search' required />
-      <label for="name" class="form__label">Search...</label>
-    </div>
-    <div class="pro" onclick="launchRandom()">
-      <h2>Pick Random</h2>
-    </div>
-    <div class="pro" onclick="launchFavourite()">
-      <h2>★ Pick Favourite</h2>
-    </div>
-    <div class="pro" onclick="launchRecent()">
-      <h2>★ Pick Most Recent</h2>
-    </div>
-    <div class="pro shareCode">
-      <h2 id="shareLibraryCode">Share Code</h2>
-    </div>
-    <div class="form__group field shareIn">
-      <input onchange="updateLib()" type="input" class="form__field" placeholder="Name" id='shareIn' required />
-      <label for="shareIn" class="form__label">Your Friend's Share Code...</label>
-    </div>
-  </header>
-</div>
-
-<div class="row" id="library"></div>
-
-<script src="https://eu-apollo.herokuapp.com/socket.io/socket.io.js"></script>
-
-<script>
-  const wsurl = "eu-apollo.herokuapp.com"; // eu-apollo.herokuapp.com
-
-  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    document.documentElement.setAttribute("data-theme", "dark");
-  }
-  window.mode = {}
-
-  window.mode.dark = function () {
-    document.documentElement.setAttribute("data-theme", "dark");
-  }
-  window.mode.light = function () {
-    document.documentElement.setAttribute("data-theme", "light");
-  }
-
-  const db = [{
-    "name": "Assassin's Creed Valhalla",
-    "cover": "//images.igdb.com/igdb/image/upload/t_1080p/co2ed3.jpg",
-    "igdbId": 133004,
-    "exe": ["ACValhalla.exe", "ACValhalla_Plus.exe"]
-  }, {
-    "name": "Assassin's Creed: Odyssey",
-    "cover": "//images.igdb.com/igdb/image/upload/t_1080p/co2nul.jpg",
-    "igdbId": 103054,
-    "exe": ["ACOdyssey.exe"]
-  }, {
-    "name": "Assassin's Creed",
-    "cover": "//images.igdb.com/igdb/image/upload/t_1080p/co2gjx.jpg",
-    "igdbId": 1970,
-    "exe": ["AssassinsCreed_Dx9.exe", "AssassinsCreed_Dx10.exe", "AssassinsCreed_Game.exe"]
-  }];
-
-  /***********************************************/
-  /* SOCKET */
-
-  var socket = io(wsurl);
-  window.connected = false;
-
-  socket.on('authorised', function (data) {
-    console.log("authorised")
-    document.getElementById("shareLibraryCode").innerHTML = "Share your Library: " + localStorage.getItem('client')
-      .toUpperCase();
-    window.connected = true;
-    socket.emit('synchronise game database', db);
-  });
-
-  // receive game invite
-  socket.on('game invite', function (data) {
-    if (document.getElementById("shareIn").value == data.inviter.toUpperCase()) {
-      //const json = JSON.parse(data.message);
-      const json = data;
-
-      if (json.receiver == localStorage.getItem('client').toUpperCase()) {
-        const game = window.library.find(it => it.igdbId == json.gameId);
-        launchGame(game.name, game.igdbId, "Your friend wants you to play $NAME!", false);
-      }
-    }
-  });
-
-  // receive friends library
-  socket.on('game library of', function (data) {
-    const friendLib = data;
-    const library = document.getElementById("library");
-
-    for (let i = 0; i < library.children.length; i++) {
-      const game = library.children[i];
-      const name = game.getElementsByTagName('p')[0].innerHTML;
-
-      if (isEligible(game, name, friendLib)) {
-        if (game.classList.contains("hidden")) {
-          game.classList.remove("hidden");
-        }
-      } else {
-        if (!game.classList.contains("hidden")) {
-          game.classList.add("hidden");
-        }
-      }
-    }
-  })
-
-  // invite to game
-  function launchFriend(id) {
-    socket.emit('launch game', id);
-  }
-
-  // authorisation; also publishs game library
-  function shareLibrary() {
-    const key = localStorage.getItem('client');
-
-    const body = {
-      "value": JSON.stringify(window.library),
-      "key": key.toUpperCase()
-    }
-
-    console.log(body);
-
-    socket.emit('authorise', body);
-
-    console.log("Content-Length:", JSON.stringify(body).length)
-  }
-
-  // updates lib while concidering friend's lib
-  function updateLib() {
-    const shareIn = document.getElementById("shareIn");
-    const v = shareIn.value
-    socket.emit('get game library of', v);
-  }
-
-  /***********************************************/
-  /* FUNS */
-
-  document.addEventListener("ws.game.validate-user", (evt) => localStorage.setItem('client', evt.data.data));
-  document.addEventListener("ws.connect", onConnected);
-  document.addEventListener("ws.game.library", receiveLibrary);
-  document.addEventListener("ws.game.launch", receiveLaunch);
-
-  function onConnected()
-  {
-    ws.game.validateUser(localStorage.getItem("client") || "1");
-    ws.game.library();
-  }
-
-  function receiveLibrary(evt)
-  {
-    const jdata = JSON.parse(evt.data.data);
-    window.library = jdata;
-
-    let library = "";
-
-    for (let i = 0; i < jdata.length; i++) {
-      var line = "<div class='game'><img onclick='launchGame(\"" + jdata[i].name.replace("'", "") + "\"," + jdata[i]
-        .igdbId + ")' src='" +
-        jdata[i].cover + "'><p>" + jdata[i].name + "</p></div>";
-
-      library += line;
-
-    }
-    document.getElementById("library").innerHTML = library;
-    shareLibrary();
-  }
-
-  function receiveLaunch(evt)
-  {
-    if (evt.data.data != "OK")
-    {
-      alert(evt.data.data);
-    }
-  }
-
-  function launchGame(name, id, confirmMsg = "Do you want to launch $NAME?", askFriend = true) {
-    name = name.replace("'", "");
-
-    if (confirm(confirmMsg.replace("$NAME", name))) {
-      ws.game.launch(id, localStorage.getItem("client"));
-
-      if (askFriend) {
-        const shareIn = document.getElementById("shareIn").value;
-
-        const req = {
-          id: id,
-          receiver: shareIn
-        };
-        console.log(req)
-        launchFriend(req);
-      }
-    }
-  }
-
-  function launchRandom() {
-    const game = jdata[Math.floor(Math.random() * (jdata.length - 1))];
-    launchGame(game.name, game.igdbId);
-  }
-
-  function launchFavourite() {
-
-  }
-
-  function launchRecent() {
-
-  }
-
-  function isEligible(game, name, friendLib) {
-    const search = document.getElementById("search");
-
-    return (name.toLowerCase().includes(search.value.toLowerCase()) || search.value == "") &&
-      (friendLib == null || friendLib == "null" || !!friendLib.find(game => game.name == name))
-  }
-</script>
-<style>
-  :root {
-    --gradient-c2: #026670;
-    --gradient-c1: #b6d91e;
-    --font: #333333;
-    --glass-gradient: linear-gradient(to right bottom,
-        rgba(255, 255, 255, 0.8),
-        rgba(255, 255, 255, 0.3));
-    --font-background: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
-    ;
-  }
-
-  [data-theme="dark"] {
-    --gradient-c2: hsl(214, 80%, 24%);
-    --gradient-c1: #522783;
-    --font: whitesmoke;
-    --glass-gradient: linear-gradient(to right bottom,
-        rgba(0, 0, 0, 0.8),
-        rgba(0, 0, 0, 0.3));
-    --font-background: linear-gradient(to right top, #8ea1f3, hsl(214, 94%, 68%));
-  }
-
-  body {
-    background: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
-    margin: 0%;
-    padding: 0%;
-    width: 100%;
-    min-height: 100vh;
-  }
-
-  /*INPUT*/
-  .form__group {
-    position: relative;
-    padding: 15px 0 0;
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    flex: 100%;
-  }
-
-  .form__group.shareIn {
-    flex: calc(40% - 20px);
-  }
-
-  .form__field {
-    font-family: inherit;
-    width: 100%;
-    border: 0;
-    border-bottom: 2px solid #9b9b9b;
-    outline: 0;
-    font-size: 1.3rem;
-    color: #fff;
-    padding: 7px 0;
-    background: transparent;
-    transition: border-color 0.2s;
-  }
-
-  .form__field::placeholder {
-    color: transparent;
-  }
-
-  .form__field:placeholder-shown~.form__label {
-    font-size: 1.3rem;
-    cursor: text;
-    top: 20px;
-  }
-
-  .form__label {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 1rem;
-    color: var(--font);
-  }
-
-  .form__field:focus {
-    padding-bottom: 6px;
-    font-weight: 700;
-    border-width: 3px;
-    border-image: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
-    border-image-slice: 1;
-  }
-
-  .form__field:focus~.form__label {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 1rem;
-    font-weight: 700;
-    background: var(--font-background);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* reset input */
-  .form__field:required,
-  .form__field:invalid {
-    box-shadow: none;
-  }
-
-  /* MINE */
-
-  header {
-    background: var(--glass-gradient);
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-
-    color: whitesmoke;
-    font-family: "Poppins", sans-serif;
-    font-size: 12px;
-    display: flex;
-    flex-flow: row wrap;
-  }
-
-  .pro {
-    background: linear-gradient(to right top, var(--gradient-c1), var(--gradient-c2));
-    border-radius: 2rem;
-    color: white;
-    padding: .5rem;
-    position: relative;
-    cursor: pointer;
-    flex: 25%;
-    margin: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .pro.shareCode {
-    cursor: default;
-    flex: calc(40% - 20px);
-  }
-
-  .pro h2 {
-    color: white;
-    font-weight: 600;
-  }
-
-  .row {
-    display: flex;
-    flex-flow: row wrap;
-    width: 100%;
-  }
-
-  .notgamerow {
-    padding: 0 0px;
-  }
-
-  .game img {
-    vertical-align: middle;
-    width: 95%;
-    border-radius: 10px;
-    margin: 2.5% 2.5%;
-  }
-
-  .game img:hover {
-    filter: grayscale(0.4) blur(5px);
-  }
-
-  .game {
-    background: var(--glass-gradient);
-    /*padding: 8px;*/
-    border-radius: 10px;
-    margin: 4px;
-    /*margin-top: 8px;
-  margin-bottom: 0px;
-  margin-left: 4px;
-  margin-right: 4px;*/
-    flex: 1 1 calc(25% - 40px);
-    max-width: calc(25% - 8px);
-  }
-
-  .game.hidden {
-    display: none;
-  }
-
-  p {
-    margin-top: 0px;
-    margin-bottom: 5px;
-    margin-left: 2.5%;
-    padding: 0;
-
-    color: var(--font);
-
-    font-family: "Poppins", sans-serif;
-    font-size: 14px;
-  }
-
-  /* Responsive layout - makes a two column-layout instead of four columns */
-  @media screen and (max-width: 970px) {
-    .game {
-      flex: 1 1 calc(50% - 20px) !important;
-      max-width: calc(50% - 8px);
-    }
-  }
-
-  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-  @media screen and (max-width: 600px) {
-    .game {
-      flex: 1 1 calc(100% - 10px) !important;
-      max-width: calc(100% - 8px);
-    }
-  }
-
-  .mobile {
-    flex: 1 1 calc(50% - 20px) !important;
-    max-width: calc(50% - 8px);
-  }
-</style>
-
-<script src="/websocket/websocket.js"></script>
+<body>
+  <div class="row notgamerow">
+    <header>
+      <div class="form__group field">
+        <input oninput="updateLib()" type="input" class="form__field" placeholder="Name" id='search' required />
+        <label for="name" class="form__label">Search...</label>
+      </div>
+      <div class="pro" onclick="launchRandom()">
+        <h2>Pick Random</h2>
+      </div>
+      <div class="pro" onclick="launchFavourite()">
+        <h2>★ Pick Favourite</h2>
+      </div>
+      <div class="pro" onclick="launchRecent()">
+        <h2>★ Pick Most Recent</h2>
+      </div>
+      <div class="pro shareCode">
+        <h2 id="shareLibraryCode">Share Code</h2>
+      </div>
+      <div class="form__group field shareIn">
+        <input onchange="updateLib()" type="input" class="form__field" placeholder="Name" id='shareIn' required />
+        <label for="shareIn" class="form__label">Your Friend's Share Code...</label>
+      </div>
+    </header>
+  </div>
+
+  <div class="row" id="library"></div>
+</body>
+
+</html>
