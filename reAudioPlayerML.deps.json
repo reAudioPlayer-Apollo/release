@@ -37,10 +37,26 @@
           "TMDbLib": "1.8.1",
           "Unosquare.Swan.Lite": "3.0.0",
           "nulastudio.NetCoreBeauty": "1.2.9.2",
-          "taglib-sharp-netstandard2.0": "2.1.0"
+          "taglib-sharp-netstandard2.0": "2.1.0",
+          "Interop.ShockwaveFlashObjects": "1.0.0.0",
+          "AxInterop.ShockwaveFlashObjects": "1.0.0.0"
         },
         "runtime": {
           "reAudioPlayerML.dll": {}
+        },
+        "resources": {
+          "de/reAudioPlayerML.resources.dll": {
+            "locale": "de"
+          },
+          "en/reAudioPlayerML.resources.dll": {
+            "locale": "en"
+          },
+          "fr/reAudioPlayerML.resources.dll": {
+            "locale": "fr"
+          },
+          "pt/reAudioPlayerML.resources.dll": {
+            "locale": "pt"
+          }
         }
       },
       "EmbedIO/3.4.3": {
@@ -368,6 +384,22 @@
             "fileVersion": "3.0.0.0"
           }
         }
+      },
+      "Interop.ShockwaveFlashObjects/1.0.0.0": {
+        "runtime": {
+          "Interop.ShockwaveFlashObjects.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "AxInterop.ShockwaveFlashObjects/1.0.0.0": {
+        "runtime": {
+          "AxInterop.ShockwaveFlashObjects.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -600,6 +632,16 @@
       "sha512": "sha512-noPwJJl1Q9uparXy1ogtkmyAPGNfSGb0BLT1292nFH1jdMKje6o2kvvrQUvF9Xklj+IoiAI0UzF6Aqxlvo10lw==",
       "path": "unosquare.swan.lite/3.0.0",
       "hashPath": "unosquare.swan.lite.3.0.0.nupkg.sha512"
+    },
+    "Interop.ShockwaveFlashObjects/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AxInterop.ShockwaveFlashObjects/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
