@@ -34,6 +34,7 @@
           "SpotifyAPI.Web.Auth": "6.1.0",
           "System.Data.DataSetExtensions": "4.5.0",
           "System.Drawing.Common": "5.0.2",
+          "System.Linq.Dynamic.Core": "1.2.10",
           "TMDbLib": "1.8.1",
           "Unosquare.Swan.Lite": "3.0.0",
           "nulastudio.NetCoreBeauty": "1.2.9.2",
@@ -356,6 +357,14 @@
           }
         }
       },
+      "System.Linq.Dynamic.Core/1.2.10": {
+        "runtime": {
+          "lib/netcoreapp2.1/System.Linq.Dynamic.Core.dll": {
+            "assemblyVersion": "1.2.10.0",
+            "fileVersion": "1.2.10.0"
+          }
+        }
+      },
       "taglib-sharp-netstandard2.0/2.1.0": {
         "runtime": {
           "lib/netstandard2.0/taglib-sharp.dll": {
@@ -593,6 +602,13 @@
       "sha512": "sha512-rvr/M1WPf24ljpvvrVd74+NdjRUJu1bBkspkZcnzSZnmAUQWSvanlQ0k/hVHk+cHufZbZfu7vOh/vYc0q5Uu/A==",
       "path": "system.drawing.common/5.0.2",
       "hashPath": "system.drawing.common.5.0.2.nupkg.sha512"
+    },
+    "System.Linq.Dynamic.Core/1.2.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fS+z97NOfNuny6gkzHPSTIvjdWx7NcQuGB5H+h8uRpqJUm8BzhujJzl5LcfuwsTuBukxgdNiNsNUqZlV1hFiSw==",
+      "path": "system.linq.dynamic.core/1.2.10",
+      "hashPath": "system.linq.dynamic.core.1.2.10.nupkg.sha512"
     },
     "taglib-sharp-netstandard2.0/2.1.0": {
       "type": "package",
