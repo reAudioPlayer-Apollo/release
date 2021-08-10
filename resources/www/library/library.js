@@ -186,7 +186,8 @@ function loadPlaylist(index, text)
 function receiveLibrary(evt) {
   console.timeEnd("resp")
   console.time("parse")
-  document.getElementById("loading").classList.add("invisible");
+  //document.getElementById("loading").classList.add("invisible");
+  console.log(evt)
   jdata = JSON.parse(evt.data.data);
   window.library = jdata;
   console.timeEnd("parse")
